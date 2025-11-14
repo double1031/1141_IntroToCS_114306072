@@ -1,0 +1,30 @@
+body{
+	color: black;background-color: lightgray;font-family: sans-serif;
+}
+h1{
+	font-family: serif;
+}
+.navbar{
+	position: relative; top: 2em; left:1em; width: 20em;
+}
+.dropdown {
+	position: relative;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    margin-top: 1em;
+}
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+ @media all{
+ 	body{color: black}
+ }
+
+@media print{
+	body{background-color: white}
+}
