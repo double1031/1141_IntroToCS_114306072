@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<h1>114306072_HW7_1A2B</h1>
+	<input id="guessInput" type="text" placeholder="Enter 4 digits">
+	<button onclick="play()">Guess</button>
+	<div id="record"><p><strong>Game Record :</strong></p></div>
+
+	<script>
+		function generateAnswer(){
+			let list = [0,1,2,3,4,5,6,7,8,9];
+			let answer = [];
+			for(let i = 0; i < 4; i++){
+				let idx = Math.floor(Math.random() * list.length);
+				let digit = list[idx];
+				answer.push(digit);
+				list.splice(idx, 1);
+			}
+			return answer.join("");
+		}
+
+		let answer = generateAnswer();
+		let count = 0;
+
+		function play(){
+		    let guess = document.getElementById("guessInput").value;
+
+		    if (!isValid(guess)) {
+		        alert("Invalid Input!");
+		        return;
+		    }
+
+		    count++;
+
+		    let result = checkAB(guess, answer);
+
+		    document.getElementById("record").innerHTML += 
+		        "第" + count + "次: " + guess + " → " + result + "<br>";
+
+		    document.getElementById("guessInput").value = "";
+
+		    if (result === "4A0B") {
+		        alert("Correct! Total attempts: " + count);
+		        answer = generateAnswer();  
+		        count = 0;
+		        document.getElementById("record").innerHTML = "<p><strong>Game Record :</strong></p>";
+		       	document.getElementById("guessInput").value = "";
+		    }
+		}
+
+		function isValid(str){
+			if (str.length !== 4) return false;
+			for (let i = 0; i < 4; i++) {
+			    if (isNaN(str[i])) {
+			        return false;
+			    }
+			}
+			let s = new Set(str);
+			if (s.size !== 4) return false;
+			return true;
+		}
+
+		function checkAB(guess, ans) {
+		    let A = 0;
+		    let B = 0;
+
+		    for (let i = 0; i < 4; i++) {
+		        if (guess[i] === ans[i]) {
+		            A++;
+		        } else if (ans.includes(guess[i])) {
+		            B++;
+		        }
+		    }
+
+		    return A +"A"+B+"B";
+		}
+
+	</script>	
+		
+
+</body>
+</html>
