@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Grade Statistics</title>
+	<link rel="stylesheet" href="Lab4_style.css">
+</head>
+<body>
+
+	<h1 style="text-align:center">Grade Statistics</h1>
+	<input id="mathInput" type="text" placeholder="Math">
+	<input id="englishInput" type="text" placeholder="English">
+	<button id="submitBtn">Submit</button>
+
+	<table id="gradeTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Math</th>
+				<th>English</th>
+				<th>Average</th>
+			</tr>
+		</thead>
+
+		 <tbody id="tableBody"></tbody>
+
+		 <tfoot>
+		 	<tr>
+		 		<th>Average</th>
+		 		<th id="mathAvg">0.00</th>
+		 		<th id="englishAvg">0.00</th>
+		 		<th id="overallAvg">0.00</th>
+		 	</tr>
+		 </tfoot>
+	</table>
+
+	<script>
+
+		var count = 0;
+
+		document.getElementById("submitBtn").addEventListener("click", function () {
+		    var mathInput = document.getElementById("mathInput").value;
+		    var englishInput = document.getElementById("englishInput").value;
+
+		    if (mathInput === "" || englishInput === "") {
+		        alert("Please enter both scores");
+		        return;
+		    }
+
+		    var math = Number(mathInput);
+		    var english = Number(englishInput);
+
+		    if (isNaN(math) || isNaN(english)) {
+		        alert("Please enter valid numbers");
+		        return;
+		    }
+
+		    addRow(math, english);
+		    updateColumnAverages();
+
+		    document.getElementById("mathInput").value = "";
+		    document.getElementById("englishInput").value = "";
+		});
+
+		function addRow(math, english) {
+		    count++;
+		    var avg = ((math + english) / 2).toFixed(2);
+
+		    var row = `
+		        <tr>
+		            <td>${count}</td>
+		            <td>${math}</td>
+		            <td>${english}</td>
+		            <td>${avg}</td>
+		        </tr>
+		    `;
+		    document.getElementById("tableBody").innerHTML += row;
+		}
+
+		function updateColumnAverages() {
+		    var rows = document.querySelectorAll("#tableBody tr");
+
+		    var mathSum = 0;
+		    var englishSum = 0;
+		    var overallSum = 0;
+
+		    rows.forEach(row => {
+		        var cells = row.children;
+		        mathSum += Number(cells[1].innerText);
+		        englishSum += Number(cells[2].innerText);
+		        overallSum += Number(cells[3].innerText);
+		    });
+
+		    var n = rows.length;
+		    document.getElementById("mathAvg").innerText = (mathSum / n).toFixed(2);
+		    document.getElementById("englishAvg").innerText = (englishSum / n).toFixed(2);
+		    document.getElementById("overallAvg").innerText = (overallSum / n).toFixed(2);
+		}
+
+	
+	</script>
+
+</body>
+</html>
